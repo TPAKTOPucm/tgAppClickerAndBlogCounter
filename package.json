@@ -1,0 +1,28 @@
+{
+  "name": "tgappbackend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TPAKTOPucm/TGappbackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TPAKTOPucm/TGappbackend/issues"
+  },
+  "homepage": "https://github.com/TPAKTOPucm/TGappbackend#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodemon": "^3.1.4"
+  }
+}
