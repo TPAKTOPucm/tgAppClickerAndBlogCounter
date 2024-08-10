@@ -9,10 +9,10 @@ const ONE_DAY_MILLIS = 86_400_000
 var date = new Date()
 
 setTimeout(() => setInterval(repository.updateStreak, 7 * ONE_DAY_MILLIS),
-  new Date(date.getFullYear(), date.getMonth(), date.getDate() + (1 + 7 - date.getDay()) % 7, 0, 0, 0)
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() + (1 + 7 - date.getDay()) % 7, 0, 0, 0) - date
 )
 setTimeout(() => setInterval(repository.updateDailyLimit, ONE_DAY_MILLIS),
-  new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0)
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0) - date
 )
 bot.on('message', async (msg) => {
   var user = (await repository.getUser(msg.from.id))[0]
@@ -62,9 +62,9 @@ bot.on('message', async (msg) => {
       console.log(leaders)
       for(var leader of leaders)
         message += `${leader.Rank}\t${leader.TELEGRAM_USER_NAME}\t${leader.Points}\n`
+      bot.sendMessage(msg.chat.id, message)
     } catch(err){
       console.log(err)
-      bot.sendMessage(msg.chat.id, message)
     }
   } else if(msg.text.startsWith("/reminder")){
     bot.sendMessage(msg.chat.id, "work in progress")
@@ -76,11 +76,13 @@ const app = express()
 
 app.listen(process.env.PORT)
 
-app.get('/startgame',(req, res)=>{
-    
+app.get('/startgame',async (req, res)=>{
+  var user = await repository.getUser(req.query.id)
+  user.Rank = await repository.getRank(user)
+  res.send(user)
 })
 
-app.post('/endgame',(req, res)=>{})
+app.post('/save',(req, res)=>{})
 
 app.get('/startclicker',(req, res)=>{})
 

@@ -62,11 +62,15 @@ class Repository{
         return "Канал успешно изменён"
     }
 
+    async getRank(user){
+        return (await User.countDocuments({Points:{ $gt: user.Points}})) + 1
+    }
+
     async getLeaderBoard(user){
         var leaders = await User.find().sort({Points: -1}).limit(10)
         leaders.map((l, index) => l.Rank = index + 1)
         if(!leaders.some((l) => l._id === user._id)){
-            var rank = (await User.countDocuments({Points:{ $gt: user.Points}})) + 1
+            var rank = this.getRank(user)
             user.Rank = rank
             leaders.push(user)
         }
