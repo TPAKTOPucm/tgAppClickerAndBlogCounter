@@ -1,0 +1,103 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.container {
+  width: 320px;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 10px;
+  text-align: center;
+}
+.profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.profile img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+.profile-info {
+  flex-grow: 1;
+  margin-left: 10px;
+  text-align: left;
+}
+.streak {
+  font-size: 24px;
+}
+.progress-bar {
+  background-color: white;
+  height: 5px;
+  width: 100%;
+}
+.points {
+  margin: 20px 0;
+}
+.stats {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.hamster {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+.stats-text {
+  text-align: left;
+}
+.days {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.day {
+  width: 30px;
+  height: 30px;
+  border: 1px solid white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.checked{
+background-color: white;
+color: black;
+}
+.game {
+  margin: 20px 0;
+}
+.game-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.game button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.footer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.footer div {
+  cursor: pointer;
+}

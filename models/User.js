@@ -15,6 +15,7 @@ const User = db.Schema({
     ChannelId: {type: Number, required: false},
     Role: { type: Number, enum: Object.values(Role), required: true },
     Points: {type: Number, index: true, required: true},
+    TypingPoints: {type: Number, requiered: true},
     Streak: {type: Number, required: true},
     Posts_per_current_day: {type: Number, required: true},
     BestStreak: {type: Number, required: true},

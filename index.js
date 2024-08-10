@@ -6,19 +6,20 @@ console.log(process.env.PORT)
 const bot = new TelegramBot(process.env.TOKEN, {polling: true});
 const repository = new Repository()
 const ONE_DAY_MILLIS = 86_400_000
+var date = new Date()
 
-repository.updateStreak()
-
-setInterval(repository.updateStreak, 7 * ONE_DAY_MILLIS)
-setInterval(repository.updateDailyLimit, ONE_DAY_MILLIS)
-
+setTimeout(() => setInterval(repository.updateStreak, 7 * ONE_DAY_MILLIS),
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() + (1 + 7 - date.getDay()) % 7, 0, 0, 0)
+)
+setTimeout(() => setInterval(repository.updateDailyLimit, ONE_DAY_MILLIS),
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0)
+)
 bot.on('message', async (msg) => {
   var user = (await repository.getUser(msg.from.id))[0]
 
   
   if(!user){
-    await repository.addUser(
-      {
+    user = {
         _id: msg.from.id,
         TELEGRAM_USER_NAME: msg.from.username ?? (msg.from.first_name + ' ' + msg.from.last_name),
         Role: 2,
@@ -36,7 +37,7 @@ bot.on('message', async (msg) => {
         NumberOfReferredPeopleTotal: 0,
         WeeklyStreak: 0
       }
-    )
+    await repository.addUser(user)
   }
 
   if(msg.text.startsWith('/addpost t.me/')){
@@ -55,15 +56,16 @@ bot.on('message', async (msg) => {
     }
     bot.sendMessage(msg.chat.id, message)
   } else if(msg.text === '/leaderboard'){
-    //try{
+    try{
       var leaders = await repository.getLeaderBoard(user)
       var message = 'Место\tИмя пользователя\tОчки\n'
       console.log(leaders)
       for(var leader of leaders)
         message += `${leader.Rank}\t${leader.TELEGRAM_USER_NAME}\t${leader.Points}\n`
-    //} catch(err){
+    } catch(err){
+      console.log(err)
       bot.sendMessage(msg.chat.id, message)
-    //}
+    }
   } else if(msg.text.startsWith("/reminder")){
     bot.sendMessage(msg.chat.id, "work in progress")
   }
