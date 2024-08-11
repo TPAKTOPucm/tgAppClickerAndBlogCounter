@@ -1,6 +1,8 @@
 import React from 'react';
 import './clicker.css'
 
+const tg = window.Telegram.WebApp;
+
 var IsTimerRunning = false
 var money = 0;
 var moneyup = 1;
@@ -30,9 +32,7 @@ function closingCode() {
     return null;
   }
 }
-*/  
-
-
+*/
 
 const Clicker = () => {
     setTimeout( () => {
@@ -55,6 +55,11 @@ const Clicker = () => {
         <button className="settings" onClick={save}>Save</button>
         <button classNameName="settings" onClick={load}>Load</button>
         <button className="settings" onClick={reset}>Reset</button><br/><br/>
+        <div class="footer">
+            <div><a href="/" style={{ textDecoration: 'none' }}>Home</a></div>
+            <div>Tasks</div>
+            <div>Friends</div>
+        </div>
     </center>
     )
 }
@@ -80,6 +85,32 @@ function addcomma(x) {
   }
   //overwrites save file
   function save() {
+    try{
+        var data = {
+            money: money,
+            moneyup: moneyup,
+            upcost: upcost,
+            catcost: catcost,
+            workercost: workercost,
+            upown: upown,
+            catown: catown,
+            workerown: workerown,
+            catadd: catadd,
+            workadd: workadd,
+            cboost: cboost,
+            wboost: wboost,
+            catmax: catmax,
+            workmax : workmax,
+            msec: msec
+        }
+        fetch(/*process.env.BASE_URI*/ 'http://localhost:5000' + '/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }).then(response => alert('Сохранено')).catch(err => console.log(err))
+    } catch(err){
     localStorage.setItem("money", money);
     localStorage.setItem("moneyup", moneyup);
     localStorage.setItem("msec", msec);
@@ -97,9 +128,47 @@ function addcomma(x) {
     localStorage.setItem("wboost", wboost);
     localStorage.setItem("catmax", catmax);
     localStorage.setItem("workmax", workmax);
+    console.log(err)
+    }
   }
+  function getUserData(){
+    var id = tg?.initDataUnsafe?.user?.id ?? 1514427621
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `${/*process.env.BASE_URI*/'http://localhost:5000'}/startgame?id=${id}`, false);
+    
+    
+    xhr.send()
+    if (xhr.status != 200) {
+        console.log('error')
+    }
+    var user = JSON.parse(xhr.responseText);
+    localStorage.setItem('user', xhr.responseText);
+    console.log('user',user);
+    return user;
+}
   //loads save file
   function load() {
+    try{
+        var user = getUserData()
+        money = user.TypingPoints
+        if(user.TypingData){
+            moneyup = user.TypingData.moneyup
+            upcost = user.TypingData.upcost;
+            catcost = user.TypingData.catcost;
+            workercost = user.TypingData.workercost;
+            upown = user.TypingData.upown;
+            catown = user.TypingData.catown;
+            workerown = user.TypingData.workerown;
+            catadd = user.TypingData.catadd;
+            workadd = user.TypingData.workadd;
+            cboost = user.TypingData.cboost;
+            wboost = user.TypingData.wboost;
+            catmax = user.TypingData.catmax;
+            workmax = user.TypingData.workmax;
+            msec = user.TypingData.msec;
+        }
+    } catch(err){
+        console.log(err)
     money = parseInt(localStorage.getItem("money"));
     moneyup = parseInt(localStorage.getItem("moneyup"));
     msec = parseInt(localStorage.getItem("msec"));
@@ -117,7 +186,7 @@ function addcomma(x) {
     wboost = parseInt(localStorage.getItem("wboost"));
     catmax = parseInt(localStorage.getItem("catmax"));
     workmax = parseInt(localStorage.getItem("workmax"));
-  
+    }
     reloadall();
   }
   //resets all values

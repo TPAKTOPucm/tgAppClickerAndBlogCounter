@@ -7,6 +7,15 @@ class Repository{
         return user
     }
 
+    async updateClicker(userData){
+        var user = await this.getUser(userData._id)
+        user.TypingPoints = userData.money
+        userData._id = undefined
+        userData.money = undefined
+        user.TypingData = userData
+        await user.save()
+    }
+
     __getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);

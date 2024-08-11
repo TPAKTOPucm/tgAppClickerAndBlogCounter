@@ -5,13 +5,13 @@ const tg = window.Telegram.WebApp;
 const levelInfo = [[0,1,1,45],[1000,2,45,85],[5000,3,85,125],[10000,4,125,165],[20000,5,165,200],[40000,6,200,240],[80000,7,240,280],[160000,8,280,320],[320000,9,320,400],[500000,10,400,500],[1000000,11,500,1000],[3000000,12,1000,1500],[10000000,13,1500,2000],[30000000,14,2000,3000],[100000000,15,3000,5000]]
 
 function getUserData(){
-    var id = tg?.initDataUnsafe?.user?.id ?? 1
+    var id = tg?.initDataUnsafe?.user?.id ?? 1514427621
     var user = localStorage.getItem("user")
     user = JSON.parse(user)
     if(user && id && user?.id === id)
         return user
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', `http://localhost:3000/startgame?id=${id}`, false);
+    xhr.open('GET', `${/*process.env.BASE_URI*/'http://localhost:5000'}/startgame?id=${id}`, false);
     
     
     xhr.send()
@@ -19,7 +19,7 @@ function getUserData(){
         console.log('error')
     }
     user = JSON.parse(xhr.responseText);
-    localStorage.setItem(xhr.responseText);
+    localStorage.setItem('user', xhr.responseText);
     console.log('user',user);
     return user;
 }
@@ -34,6 +34,7 @@ const Start = () => {
         name = 'user_Ivan'
         photo = 'blob:https://web.telegram.org/79465612-ccf4-486d-85fc-fdd115b0ac20'
         user = {
+            _id: 1,
             level: 1,
             Streak: 1,
             Points: 12,
@@ -44,6 +45,7 @@ const Start = () => {
         }
         console.log(err)
     }
+    sessionStorage.setItem('user',JSON.stringify(user))
     return (
     <div class="container">
         <div class="profile">
@@ -57,7 +59,7 @@ const Start = () => {
             <div class="streak">{user.Streak}</div>
         </div>
         <div class="points">
-            <div>{user.Points}</div>
+            <div>{user.Points} pts</div>
             <div class="stats">
                 <img src="hamster.png" alt="Hamster Image" class="hamster" />
                 <div class="stats-text">
@@ -79,14 +81,14 @@ const Start = () => {
         <div class="game">
             <div class="game-container">
                 <div>Typing Game <span>{user.TypingPoints}</span></div>
-                <button>Play</button>
+                <a href="/clicker" style={{ textDecoration: 'none' }}><button>Play</button></a>
             </div>
         </div>
         <div class="game">
             <button>Start Farming</button>
         </div>
         <div class="footer">
-            <div>Home</div>
+            <a href="/" style={{ textDecoration: 'none', color: 'while' }}><div>Home</div></a>
             <div>Tasks</div>
             <div>Friends</div>
         </div>

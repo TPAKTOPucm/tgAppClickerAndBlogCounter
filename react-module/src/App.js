@@ -8,6 +8,7 @@ import Clicker from "./components/clicker";
 
 
 function App() {
+  process.env.BASE_URI='http://localhost:5000'
   useEffect(() => {
     window.Telegram.WebApp.ready()
   })

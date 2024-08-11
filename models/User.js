@@ -8,6 +8,38 @@ const Role = {
     Vip: 3
 }
 
+class TypingData{
+    constructor(moneyup,
+        msec,
+        upcost,
+        catcost,
+        workercost,
+        upown,
+        catown,
+        workerown,
+        catad,
+        workadd,
+        cboost,
+        wboost,
+        catmax,
+        workmax){
+    this.moneyup = moneyup;
+    this.msec = msec;
+    this.upcost = upcost;
+    this.catcost = catcost;
+    this.workercost = workercost;
+    this.upown = upown;
+    this.catown = catown;
+    this.workerown = workerown;
+    this.catad = catadd;
+    this.workadd = workadd;
+    this.cboost = cboost;
+    this.wboost = wboost;
+    this.catmax = catmax;
+    this.workmax = workmax;
+        }
+}
+
 const User = db.Schema({
     _id: {type: Number, required: true},
     TELEGRAM_USER_NAME: {type: String, required: true},
@@ -16,6 +48,7 @@ const User = db.Schema({
     Role: { type: Number, enum: Object.values(Role), required: true },
     Points: {type: Number, index: true, required: true},
     TypingPoints: {type: Number, requiered: true},
+    TypingData: {type: Object, required: false},
     Streak: {type: Number, required: true},
     Posts_per_current_day: {type: Number, required: true},
     BestStreak: {type: Number, required: true},

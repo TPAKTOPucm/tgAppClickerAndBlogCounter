@@ -76,6 +76,9 @@ color: black;
 .game {
   margin: 20px 0;
 }
+a:active{
+  color: white;
+}
 .game-container {
   display: flex;
   justify-content: space-between;
